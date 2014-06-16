@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg_testyun"
+    >
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="闹钟"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/yuntitle"
+        android:background="@drawable/yun_top"
+        android:textColor="@color/white"/>
+	<ListView
+	    android:layout_below="@id/yuntitle"
+   		android:id="@+id/alarms_list"
+   		android:layout_marginLeft="5dip"
+   		android:layout_marginRight="5dip"
+    	android:layout_width="match_parent"
+    	android:cacheColorHint="@color/transparent"
+    	android:layout_height="400dp"/>
+
+
+	    <ImageButton 
+	    android:id="@+id/yunadd"
+	    android:src="@drawable/yun_add"
+	    android:background="@color/transparent"
+	    android:layout_below="@id/alarms_list"
+	    android:layout_marginTop="15dp"
+	    android:layout_marginLeft="20dp"
+	    android:layout_width="70dp"
+	    android:layout_height="70dp"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentBottom="true"
+	    android:gravity="bottom"/>
+		<Button 
+	    android:id="@+id/yunhome"
+		android:text="时间"
+		android:textColor="#000000"
+		android:layout_marginTop="15dp"
+		android:layout_below="@id/alarms_list"
+		android:gravity="center"
+		android:layout_marginBottom="5dp"
+		android:background="@drawable/yunbackground"
+	    android:layout_width="120dp"
+	    android:layout_height="40dp"
+		/>
+		<ImageButton 
+	    android:id="@+id/yunset"
+	    android:src="@drawable/yun_setting"
+	    android:layout_marginRight="20dp"
+	    android:layout_marginTop="15dp"
+	    android:background="@color/transparent"
+	    android:layout_below="@id/alarms_list"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+		/>
+
+	
+
+</RelativeLayout>

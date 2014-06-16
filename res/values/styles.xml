@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="clock">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="AlarmClockTheme" parent="android:Theme.Holo">
+        <item name="android:background" >@color/transparent</item>
+        </style>
+    <style name="SetAlarmTheme" parent="android:Theme.Holo"/>
+
+    <style name="AlarmAlertFullScreenWindowTitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/dark</item>
+    </style>
+
+    <!-- NOTE: This must be a fullscreen theme, or else the fullscreen alarm will
+         be unable to turn the screen on. -->
+    <style name="AlarmAlertFullScreenTheme" parent="android:Theme.Holo.Wallpaper.NoTitleBar">
+        <item name="android:windowTitleStyle">@style/AlarmAlertFullScreenWindowTitle</item>
+    </style>
+    <style name="alarm_alert" parent="@android:style/Theme.Holo.Dialog.NoActionBar.MinWidth">
+    </style>
+
+    <style name="RoundTouchButton">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ButtonStripLeft">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/btn_strip_trans_left</item>
+    </style>
+    <style name="ButtonStripMiddle">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/btn_strip_trans_middle</item>
+    </style>
+    <style name="ButtonStripRight">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/btn_strip_trans_right</item>
+    </style>
+    <style name="alarm_list_left_column">
+        <item name="android:layout_width">68dip</item>
+        <item name="android:layout_height">68dip</item>
+    </style>
+    <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+  	 <item name="android:button">@drawable/checkbox</item>
+  	</style>
+  	<style name="yun_theme" parent="android:Theme.Holo">
+            <item name="android:shadowColor">#000000</item>
+            <item name="android:shadowDx">2</item>
+            <item name="android:shadowDy">2</item>
+            <item name="android:shadowRadius">2</item>
+            <item name="android:textSize">22sp</item>
+           	<item name="android:textColor">#ffffff</item>
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+     <style name="yun_settingtheme" parent="android:Theme.Holo.NoActionBar">
+            <item name="android:shadowColor">#000000</item>
+            <item name="android:shadowDx">2</item>
+            <item name="android:shadowDy">2</item>
+            <item name="android:shadowRadius">2</item>
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <style name="yun_alarmtheme" parent="android:Theme.Holo.NoActionBar.Fullscreen">
+            <item name="android:shadowColor">#000000</item>
+            <item name="android:shadowDx">2</item>
+            <item name="android:shadowDy">2</item>
+            <item name="android:shadowRadius">2</item>
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    
+</resources>

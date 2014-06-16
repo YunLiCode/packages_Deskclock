@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/yuncheck"
+            android:focusable="false"
+            android:clickable="false"
+            style="@style/MyCheckBox"
+            android:duplicateParentState="true"
+            android:textColor="@color/dark"
+            android:text="启用闹钟"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" 
+    
+	>
+</CheckedTextView>
