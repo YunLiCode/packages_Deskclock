@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application android:label="@string/app_label"
+        		android:screenOrientation="portrait"
                  android:icon="@drawable/time">
 
         <provider android:name="AlarmProvider"
@@ -40,27 +41,23 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="AlarmClock"
+        <activity android:name="AlarmClockold"
                 android:label="@string/alarm_list_title"
                 android:theme="@android:style/Theme.Holo.Wallpaper.NoTitleBar"
                 android:taskAffinity=""
                 android:excludeFromRecents="true"
                 android:configChanges="orientation|keyboardHidden|keyboard|navigation"
                 android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-           
-                <category android:name="android.intent.category.DESK_DOCK" />
-            </intent-filter>
+            
         </activity>
 
         <activity-alias android:name="com.android.deskclock..AlarmClock"
-                android:targetActivity="com.android.deskclock.AlarmClock"
+                android:targetActivity="com.android.deskclock.AlarmClockold"
                 android:exported="true" />
 
         <activity android:name="SettingsActivity"
                 android:label="@string/settings"
+                android:screenOrientation="portrait"
                 android:theme="@style/yun_settingtheme"
                 android:taskAffinity=""
                 android:excludeFromRecents="true"
@@ -73,11 +70,13 @@
         <activity android:name="SetAlarm" 
                 android:label="@string/set_alarm"
                 android:theme="@style/yun_settingtheme"
+                android:windowSoftInputMode="adjustPan"
+                android:screenOrientation="portrait"
                 android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
 
         <activity android:name="AlarmAlert"
                 android:excludeFromRecents="true"
-                android:theme="@style/yun_alarmtheme"
+                android:theme="@android:style/Theme.Holo.Wallpaper.NoTitleBar"
                 android:launchMode="singleInstance"
                 android:taskAffinity=""
                 android:configChanges="orientation|keyboardHidden|keyboard|navigation"/>
@@ -154,92 +153,26 @@
             </intent-filter>
         </activity>
 	<activity
-            android:name="com.android.deskclock.jishiqi.Index"
+            android:name="com.android.deskclock.AlarmClock"
             android:theme="@style/yun_settingtheme"
+            android:screenOrientation="portrait"
             android:label="@string/app_label" >
-            <intent-filter>
+	    <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DESK_DOCK" />
             </intent-filter>
-        </activity>
-        <provider
-            android:name="com.android.yun.deskclock.AlarmProvider"
-            android:authorities="com.cn.daming.deskclock"
-            android:exported="false" />
 
-       
+        </activity>
         <activity android:name="com.android.deskclock.jishiqi.MyTimer" >
         </activity>
-        <activity android:name="com.android.deskclock.jishiqi.DuociTimer"
-            android:theme="@style/yun_settingtheme" >
+        <activity android:name="com.android.deskclock.DuociTimer"      android:theme="@style/yun_settingtheme" >
         </activity>
-        <activity android:name="com.android.deskclock.jishiqi.MainActivity" 
-            android:theme="@style/yun_settingtheme">
+        <activity android:name="com.android.deskclock.MainActivity" android:theme="@style/yun_settingtheme">
         </activity>
-        <activity android:name="com.android.deskclock.jishiqi.Timer"
-            android:theme="@style/yun_settingtheme" >
+        <activity android:name="com.android.deskclock.Timer" android:theme="@android:style/Theme.Holo.Light" >
         </activity>
-        <activity
-            android:name="com.android.yun.deskclock.SetAlarm"
-            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
-            android:label="@string/set_alarm" />
-        <activity android:name="com.android.yun.deskclock.DeskClockMainActivity" />
-        <activity
-            android:name="com.android.yun.deskclock.SettingsActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/settings"
-            android:taskAffinity="" >
-        </activity>
-        <activity
-            android:name="com.android.yun.deskclock.AlarmAlertFullScreen"
-            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:taskAffinity=""
-            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" />
-
-        <receiver android:name="com.android.yun.deskclock.AlarmReceiver" >
-            <intent-filter>
-                <action android:name="com.cn.daming.deskclock.ALARM_ALERT" />
-                <action android:name="alarm_killed" />
-                <action android:name="cancel_snooze" />
-            </intent-filter>
-        </receiver>
-
-        <activity
-            android:name="com.android.yun.deskclock.AlarmAlert"
-            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:taskAffinity=""
-            android:theme="@style/alarm_alert" />
-        <activity
-            android:name="com.android.yun.deskclock.HandleSetAlarm"
-            android:excludeFromRecents="true"
-            android:permission="com.android.alarm.permission.SET_ALARM"
-            android:theme="@android:style/Theme.NoDisplay" >
-            <intent-filter>
-                <action android:name="android.intent.action.SET_ALARM" />
-            </intent-filter>
-        </activity>
-
-        <service
-            android:name="com.android.yun.deskclock.AlarmKlaxon"
-            android:description="@string/alarm_klaxon_service_desc" >
-            <intent-filter>
-                <action android:name="com.cn.daming.deskclock.ALARM_ALERT" />
-            </intent-filter>
-        </service>
-
-        <receiver android:name="com.android.yun.deskclock.AlarmInitReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.TIME_SET" />
-                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-                <action android:name="android.intent.action.LOCALE_CHANGED" />
-            </intent-filter>
-        </receiver>
     </application>
 </manifest>
 

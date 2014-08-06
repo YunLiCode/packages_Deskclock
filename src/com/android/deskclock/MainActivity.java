@@ -1,4 +1,4 @@
-package com.android.deskclock.jishiqi;
+package com.android.deskclock;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -129,9 +129,9 @@ public class MainActivity extends Activity {
 						enddaojishi();
 					}
 					if (screen) {
-						Index.seekBar.setProgress(1);
+						AlarmClock.seekBar.setProgress(1);
 					} else {
-						Index.seekBar.setProgress(2);
+						AlarmClock.seekBar.setProgress(2);
 					}
 					int totalSec = 0;
 					int yushu = 0;
@@ -200,7 +200,7 @@ public class MainActivity extends Activity {
 		startbuttondaoji.setVisibility(View.VISIBLE);
 		startandcannellin.setVisibility(View.GONE);
 		try {
-			Index.seekBar.setProgress(2);
+			AlarmClock.seekBar.setProgress(2);
 			task.cancel();
 			task = null;
 			timer.cancel();
@@ -247,7 +247,7 @@ public class MainActivity extends Activity {
 				SaveRun.setisdaojishi(false);
 				try {
 					if (task != null) {
-						Index.seekBar.setProgress(2);
+						AlarmClock.seekBar.setProgress(2);
 						task.cancel();
 						task = null;
 						timer.cancel();
@@ -295,7 +295,7 @@ public class MainActivity extends Activity {
 				} else {
 					try {
 						SaveRun.setisdaojishi(false);
-						Index.seekBar.setProgress(2);
+						AlarmClock.seekBar.setProgress(2);
 						btnselecttime.setText("¼ÌÐø");
 						task.cancel();
 						task = null;

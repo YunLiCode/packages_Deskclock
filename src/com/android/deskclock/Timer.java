@@ -1,4 +1,4 @@
-package com.android.deskclock.jishiqi;
+package com.android.deskclock;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -23,7 +23,7 @@ public class Timer extends Activity {
 	Time t = new Time();
 	Button xiugaisystemtime;
 	RotateAnimation houranimation, minuteanimation, secondanimation;
-	TextView londomtime, newyorktime;
+	TextView londomtime, newyorktime , beijingtime , londomtime2, newyorktime2 ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,9 @@ public class Timer extends Activity {
 		xiugaisystemtime = (Button) this.findViewById(R.id.xiugaisystemtime);
 		londomtime = (TextView) this.findViewById(R.id.londomtime);
 		newyorktime = (TextView) this.findViewById(R.id.newyorktime);
+		londomtime2 = (TextView) this.findViewById(R.id.londomtime2);
+		newyorktime2 = (TextView) this.findViewById(R.id.newyorktime2);
+		beijingtime=(TextView) findViewById(R.id.beijingtime);
 	}
 
 	@Override
@@ -54,7 +57,7 @@ public class Timer extends Activity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent("/");
 				ComponentName cm = new ComponentName("com.android.settings",
-						"com.android.settings.DateTimeSettingsSetupWizard");
+						"com.android.settings.Settings$DateTimeSettingsActivity");
 				intent.setComponent(cm);
 				intent.setAction("android.intent.action.VIEW");
 				startActivity(intent);
@@ -109,13 +112,16 @@ public class Timer extends Activity {
 				londomtime.setText(hour - 7 + ":" + a);
 			} else {
 				londomtime.setText(24 - 7 + hour + ":" + a);
+				londomtime2.setText("×òÌì");
 			}
 
 			if (hour >= 12) {
 				newyorktime.setText(hour - 12 + ":" + a);
 			} else {
 				newyorktime.setText(24 - 12 + hour + ":" + a);
+				newyorktime2.setText("×òÌì");
 			}
+			beijingtime.setText(hour + ":" + a);
 		}
 	};
 }

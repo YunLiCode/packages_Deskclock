@@ -34,10 +34,10 @@ public class WheelView extends View {
 	private static final int MIN_DELTA_FOR_SCROLLING = 1;
 
 	/** Current value & label text color */
-	private static final int VALUE_TEXT_COLOR = 0xffffffff; // 中间那排选中的颜色
+	private static final int VALUE_TEXT_COLOR = 0xff000000; // 中间那排选中的颜色
 
 	/** Items text color */
-	private static final int ITEMS_TEXT_COLOR = 0xFFd4d3d2; // 其他的未选中的颜色
+	private static final int ITEMS_TEXT_COLOR = 0xFF878787; // 其他的未选中的颜色
 
 	/** Top and bottom shadows colors */
 	private static final int[] SHADOWS_COLORS = new int[] { 0x00000000, // 上下边颜色

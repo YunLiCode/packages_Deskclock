@@ -19,6 +19,7 @@
     <CheckBoxPreference android:key="enabled"
         android:persistent="false"
         android:title="@string/enable_alarm" />
+    <PreferenceCategory>
     <Preference android:key="time"
         android:persistent="false"
         android:title="@string/time"/>
@@ -26,6 +27,8 @@
         android:persistent="false"
         android:key="setRepeat"
         android:title="@string/alarm_repeat" />
+    </PreferenceCategory>
+    <PreferenceCategory>
     <com.android.deskclock.AlarmPreference
         android:key="alarm"
         android:title="@string/alert"
@@ -36,4 +39,6 @@
     <CheckBoxPreference android:key="vibrate"
         android:persistent="false"
         android:title="@string/alarm_vibrate"/>
+    </PreferenceCategory>
+   
 </PreferenceScreen>

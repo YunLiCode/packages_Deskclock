@@ -42,7 +42,7 @@ public class HandleSetAlarm extends Activity {
             finish();
             return;
         } else if (!intent.hasExtra(EXTRA_HOUR)) {
-            startActivity(new Intent(this, AlarmClock.class));
+            startActivity(new Intent(this, AlarmClockold.class));
             finish();
             return;
         }

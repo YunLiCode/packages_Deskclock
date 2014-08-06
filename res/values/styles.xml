@@ -24,7 +24,7 @@
     <style name="AlarmClockTheme" parent="android:Theme.Holo">
         <item name="android:background" >@color/transparent</item>
         </style>
-    <style name="SetAlarmTheme" parent="android:Theme.Holo"/>
+    <style name="SetAlarmTheme" parent="android:Theme.Holo.Light"/>
 
     <style name="AlarmAlertFullScreenWindowTitle">
         <item name="android:maxLines">1</item>
@@ -72,27 +72,18 @@
     <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
   	 <item name="android:button">@drawable/checkbox</item>
   	</style>
-  	<style name="yun_theme" parent="android:Theme.Holo">
-            <item name="android:shadowColor">#000000</item>
-            <item name="android:shadowDx">2</item>
-            <item name="android:shadowDy">2</item>
-            <item name="android:shadowRadius">2</item>
+  	<style name="yun_theme" parent="android:Theme.Holo.Light">
+          
             <item name="android:textSize">22sp</item>
-           	<item name="android:textColor">#ffffff</item>
+           	<item name="android:textColor">#000000</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-     <style name="yun_settingtheme" parent="android:Theme.Holo.NoActionBar">
-            <item name="android:shadowColor">#000000</item>
-            <item name="android:shadowDx">2</item>
-            <item name="android:shadowDy">2</item>
-            <item name="android:shadowRadius">2</item>
+     <style name="yun_settingtheme" parent="@android:style/Theme.Holo.Light.NoActionBar">
+            
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    <style name="yun_alarmtheme" parent="android:Theme.Holo.NoActionBar.Fullscreen">
-            <item name="android:shadowColor">#000000</item>
-            <item name="android:shadowDx">2</item>
-            <item name="android:shadowDy">2</item>
-            <item name="android:shadowRadius">2</item>
+    <style name="yun_alarmtheme" parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
+           
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     

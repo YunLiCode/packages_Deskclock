@@ -4,6 +4,7 @@
             android:focusable="false"
             android:clickable="false"
             style="@style/MyCheckBox"
+            android:gravity="center_vertical"
             android:duplicateParentState="true"
             android:textColor="@color/dark"
             android:text="启用闹钟"

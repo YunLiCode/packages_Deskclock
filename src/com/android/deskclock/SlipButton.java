@@ -1,4 +1,4 @@
-package com.android.deskclock.jishiqi;
+package com.android.deskclock;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

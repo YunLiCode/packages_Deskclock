@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_testyun"
      >
 
     <RelativeLayout
@@ -30,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:visibility="gone"
             android:src="@drawable/min_progress_hand" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="00:00.0"
-            android:textSize="35sp"
+            android:textSize="45sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -75,6 +75,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
                 android:layout_marginRight="100sp" >
 
                 <ImageView
@@ -102,6 +103,7 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
+                android:layout_marginTop="80dp"
                 android:layout_height="wrap_content" >
 
                 <ImageView

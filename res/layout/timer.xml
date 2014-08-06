@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_testyun"
      >
 
     <RelativeLayout
@@ -42,9 +41,43 @@
         android:id="@+id/bottomtimes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:layout_alignParentBottom="true"
         android:orientation="vertical" >
+        
+      <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+             >
+             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:text="北京时间"
+                android:textStyle="bold"
+                android:textSize="24sp" />
+            <TextView 
+                android:id="@+id/beijingtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="30sp"
+                android:text="@null"
+                android:layout_alignParentRight="true"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+ 
+			<TextView 
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="今天"
+			    android:layout_alignParentRight="true"
+			    android:layout_below="@id/beijingtime"
+			    android:textColor="#878787"
+			    android:textSize="13sp"/>            
 
+            </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50sp"
@@ -55,18 +88,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="30sp"
+                android:layout_alignParentLeft="true"
                 android:text="09:05"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
+			<TextView 
+			    android:layout_width="wrap_content"
+			    android:id="@+id/londomtime2"
+			    android:layout_height="wrap_content"
+			    android:text="今天"
+			    android:layout_centerVertical="true"
+			    android:layout_marginLeft="10dp"
+			    android:layout_toRightOf="@id/londomtime"
+			    android:textColor="#878787"
+			    android:textSize="13sp"/>  
             <ImageView
                 android:id="@+id/fghfhdfhfhdfhd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/londomtime"
-                android:paddingLeft="10sp"
+                android:layout_toRightOf="@+id/londomtime2"
+                android:paddingLeft="5sp"
                 android:paddingRight="10sp"
                 android:src="@drawable/item_inner_divider" />
 
@@ -87,28 +129,39 @@
                 android:background="@drawable/ic_menu_desk_clock" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50sp"
-             >
+     
+
+           
+            <RelativeLayout 
+                android:layout_width="match_parent"
+            	android:layout_height="50sp">
 
             <TextView
                 android:id="@+id/newyorktime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="30sp"
+                android:layout_alignParentLeft="true"
                 android:text="09:05"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
+				<TextView 
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="今天"
+			    android:layout_centerVertical="true"
+			    android:layout_marginLeft="10dp"
+				android:id="@+id/newyorktime2"
+			    android:layout_toRightOf="@id/newyorktime"
+			    android:textColor="#878787"
+			    android:textSize="13sp"/>  
             <ImageView
                 android:id="@+id/fsaffdsfswwww"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/newyorktime"
-                android:paddingLeft="10sp"
+                android:layout_toRightOf="@+id/newyorktime2"
+                android:paddingLeft="5sp"
                 android:paddingRight="10sp"
                 android:src="@drawable/item_inner_divider" />
 

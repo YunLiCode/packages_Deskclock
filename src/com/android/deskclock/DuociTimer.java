@@ -1,4 +1,4 @@
-package com.android.deskclock.jishiqi;
+package com.android.deskclock;
 
 import java.util.ArrayList;
 import java.util.HashMap;

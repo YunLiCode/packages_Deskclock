@@ -528,7 +528,7 @@ public class DeskClock extends Activity {
                     mDimmed = false;
                     doDim(true);
                 }
-                startActivity(new Intent(DeskClock.this, AlarmClock.class));
+                startActivity(new Intent(DeskClock.this, AlarmClockold.class));
             }
         };
 

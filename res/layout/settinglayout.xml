@@ -2,20 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_testyun"
+    android:padding="10dp"
     android:orientation="vertical" >
-    <TextView 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="设置"
-        android:gravity="center_horizontal"
-        android:textSize="30sp"
-        android:layout_alignParentTop="true"
-        style="@style/yun_theme"
-        android:id="@+id/yuntitlesetting"
-        android:textColor="@color/white"/>
+
     <ListView 
-        android:layout_below="@id/yuntitlesetting"
    		android:layout_marginLeft="5dip"
    		android:id="@android:id/list"
    		android:layout_marginRight="5dip"

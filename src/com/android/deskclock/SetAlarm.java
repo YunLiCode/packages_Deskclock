@@ -142,7 +142,7 @@ public class SetAlarm extends PreferenceActivity implements Preference.OnPrefere
 
         } 
 
-        // Attach actions to each button.ÉèÖÃ°´Å¥¶¯×÷
+        // Attach actions to each button.è®¾ç½®æŒ‰é’®åŠ¨ä½œ
         Button b = (Button) findViewById(R.id.yundone);
         if (b != null) {
             b.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +167,7 @@ public class SetAlarm extends PreferenceActivity implements Preference.OnPrefere
         b = (Button) findViewById(R.id.yundelete);
         if (b != null) {
             if (mId == -1) {
-            	//Èç¹ûÊÇ´´½¨ÄÖÖÓ¾ÍÒş²ØÉ¾³ıµÄÍ¼±ê
+            	//å¦‚æœæ˜¯åˆ›å»ºé—¹é’Ÿå°±éšè—åˆ é™¤çš„å›¾æ ‡
                 b.setEnabled(false);
                 b.setVisibility(View.GONE);
             } else {

@@ -26,7 +26,7 @@ import java.util.Date;
 class Log {
     public final static String LOGTAG = "AlarmClock";
 
-    static final boolean LOGV = AlarmClock.DEBUG ? false : false;
+    static final boolean LOGV = AlarmClockold.DEBUG ? false : false;
 
     static void v(String logMe) {
         android.util.Log.v(LOGTAG, /* SystemClock.uptimeMillis() + " " + */ logMe);

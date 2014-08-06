@@ -1,388 +1,244 @@
-/*
- * Copyright (C) 2007 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.android.deskclock;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 
-import android.app.ActionBar;
-import android.app.Activity;
+import com.android.deskclock.*;
+import com.android.deskclock.selecttimee.ScreenInfo;
+
+import android.annotation.SuppressLint;
+import android.app.ActivityGroup;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CursorAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
-/**
- * AlarmClock application.
- */
-public class AlarmClock extends Activity implements OnItemClickListener {
+@SuppressWarnings("deprecation")
+public class AlarmClock extends ActivityGroup {
+	private ViewPager viewPager;
+	private ArrayList<View> pageViews;
+	Button naozhong, shijian, miaobiao, daoshi;
+	ImageView youbiao;
+	Animation am;
+	static SeekBar seekBar = null;
+	int w;
+	float prearg1 = 0;
+	float predree = 0.0f;
+	int current = 0;
 
-    static final String PREFERENCES = "AlarmClock";
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle icicle) {
+		super.onCreate(icicle);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.index);
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		youbiao = (ImageView) findViewById(R.id.youbiao);
 
-    /** This must be false for production.  If true, turns on logging,
-        test code, etc. */
-    static final boolean DEBUG = false;
+		naozhong = (Button) findViewById(R.id.naozhong);
+		shijian = (Button) findViewById(R.id.shijian);
+		miaobiao = (Button) findViewById(R.id.miaobiao);
+		daoshi = (Button) findViewById(R.id.daoshi);
 
-    private SharedPreferences mPrefs;
-    private LayoutInflater mFactory;
-    private ListView mAlarmsList;
-    private Cursor mCursor;
-    private ImageButton yunadd;
-    private Button yunhome;
-    private ImageButton yunsetting;
-    
+		Button btns[] = { naozhong, shijian, miaobiao, daoshi };
+		seekBar = new SeekBar(this);
+		seekBar.setMax(5);
+		InItView();
+		viewPager.setAdapter(new myPagerView());
 
-    private void updateAlarm(boolean enabled,
-            Alarm alarm) {
-        Alarms.enableAlarm(this, alarm.id, enabled);
-        
-        if (enabled) {
-            SetAlarm.popAlarmSetToast(this, alarm.hour, alarm.minutes,
-                    alarm.daysOfWeek);
-        }
-    }
-    	
+		ScreenInfo s = new ScreenInfo(AlarmClock.this);
+		w = s.getWidth() / 4;
+		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) youbiao
+				.getLayoutParams();
+		lp.width = w;
+		youbiao.setLayoutParams(lp);
 
-    private class AlarmTimeAdapter extends CursorAdapter {
-        public AlarmTimeAdapter(Context context, Cursor cursor) {
-            super(context, cursor);
-        }
-
-        @Override
-        public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            View ret = mFactory.inflate(R.layout.alarm_time, parent, false);
-
-            DigitalClock digitalClock =
-                    (DigitalClock) ret.findViewById(R.id.digitalClock);
-            digitalClock.setLive(false);
-            return ret;
-        }
-        
-
-        @Override
-        public void bindView(View view, Context context, Cursor cursor) {
-            final Alarm alarm = new Alarm(cursor);
-
-            View indicator = view.findViewById(R.id.indicator);
-
-            // Set the initial state of the clock "checkbox"
-            final CheckBox clockOnOff =
-                    (CheckBox) indicator.findViewById(R.id.clock_onoff);
-            clockOnOff.setChecked(alarm.enabled);
-
-            // Clicking outside the "checkbox" should also change the state.
-            indicator.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    clockOnOff.toggle();
-                    updateAlarm(clockOnOff.isChecked(), alarm);
-                }
-            });
-
-            DigitalClock digitalClock =
-                    (DigitalClock) view.findViewById(R.id.digitalClock);
-
-            // set the alarm text
-            final Calendar c = Calendar.getInstance();
-            c.set(Calendar.HOUR_OF_DAY, alarm.hour);
-            c.set(Calendar.MINUTE, alarm.minutes);
-            digitalClock.updateTime(c);
-
-            // Set the repeat text or leave it blank if it does not repeat.
-            TextView daysOfWeekView =
-                    (TextView) digitalClock.findViewById(R.id.daysOfWeek);
-            final String daysOfWeekStr =
-                    alarm.daysOfWeek.toString(AlarmClock.this, false);
-            if (daysOfWeekStr != null && daysOfWeekStr.length() != 0) {
-                daysOfWeekView.setText(daysOfWeekStr);
-                daysOfWeekView.setVisibility(View.VISIBLE);
-            } else {
-                daysOfWeekView.setVisibility(View.GONE);
-            }
-
-            // Display the label
-            TextView labelView =
-                    (TextView) view.findViewById(R.id.label);
-            if (alarm.label != null && alarm.label.length() != 0) {
-                labelView.setText(alarm.label);
-                labelView.setVisibility(View.VISIBLE);
-            } else {
-                labelView.setVisibility(View.GONE);
-            }
-        }
-    };
-
-    @Override
-    public boolean onContextItemSelected(final MenuItem item) {
-        final AdapterContextMenuInfo info =
-                (AdapterContextMenuInfo) item.getMenuInfo();
-        final int id = (int) info.id;
-        // Error check just in case.
-        if (id == -1) {
-            return super.onContextItemSelected(item);
-        }
-        switch (item.getItemId()) {
-            case R.id.delete_alarm: {
-                // Confirm that the alarm will be deleted.
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.delete_alarm))
-                        .setMessage(getString(R.string.delete_alarm_confirm))
-                        .setPositiveButton(android.R.string.ok,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface d,
-                                            int w) {
-                                        Alarms.deleteAlarm(AlarmClock.this, id);
-                                    }
-                                })
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .show();
-                return true;
-            }
-
-            case R.id.enable_alarm: {
-                final Cursor c = (Cursor) mAlarmsList.getAdapter()
-                        .getItem(info.position);
-                final Alarm alarm = new Alarm(c);
-                Alarms.enableAlarm(this, alarm.id, !alarm.enabled);
-                if (!alarm.enabled) {
-                    SetAlarm.popAlarmSetToast(this, alarm.hour, alarm.minutes,
-                            alarm.daysOfWeek);
-                }
-                return true;
-            }
-
-            case R.id.edit_alarm: {
-                final Cursor c = (Cursor) mAlarmsList.getAdapter()
-                        .getItem(info.position);
-                final Alarm alarm = new Alarm(c);
-                Intent intent = new Intent(this, SetAlarm.class);
-                intent.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
-                startActivity(intent);
-                return true;
-            }
-
-            default:
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    @Override
-    protected void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-
-        mFactory = LayoutInflater.from(this);
-        mPrefs = getSharedPreferences(PREFERENCES, 0);
-        mCursor = Alarms.getAlarmsCursor(getContentResolver());
-     
-        updateLayout();
-
-	   
-        yunadd=(ImageButton)findViewById(R.id.yunadd);
-        yunhome=(Button)findViewById(R.id.yunhome);
-        yunsetting=(ImageButton)findViewById(R.id.yunset);
-        yunadd.setOnClickListener(new OnClickListener() {
-			
+		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
-			public void onClick(View V) {
-				Intent intent=new Intent();
-    			intent.setClass(AlarmClock.this, SetAlarm.class);
-    			startActivity(intent);				
+			public void onPageSelected(int arg0) {
+				selsct(arg0);
+
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				if (arg1 != 0) {
+					TranslateAnimation animation = new TranslateAnimation(
+							predree * w + current, arg1 * w + arg0 * w, 0, 0);
+					animation.setDuration(200);
+					animation.setFillAfter(true);
+					youbiao.startAnimation(animation);
+					predree = arg1;
+					current = arg0 * w;
+				}
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
 			}
 		});
-        yunhome.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View V) {
-				Intent intent=new Intent();
-    			intent.setClass(AlarmClock.this, DeskClock.class);
-    			startActivity(intent);				
-			}
-		});
-        yunsetting.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View V) {
-				Intent intent=new Intent();
-    			intent.setClass(AlarmClock.this, SettingsActivity.class);
-    			startActivity(intent);				
-			}
-		});
-    }
-    class yunaddf implements OnClickListener{
-		
-		@Override
-		public void onClick(View v) {
-			Intent intent=new Intent();
-			intent.setClass(AlarmClock.this, SetAlarm.class);
-			startActivity(intent);
+		for (int i = 0; i < 4; i++) {
+			final int a = i;
+			btns[a].setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					viewPager.setCurrentItem(a);
+					selsct(a);
+				}
+			});
 		}
-	}	
-    	
+		selsct(0);
+	}
 
-    private void updateLayout() {
-        setContentView(R.layout.alarm_clock);
-        mAlarmsList = (ListView) findViewById(R.id.alarms_list);
-        AlarmTimeAdapter adapter = new AlarmTimeAdapter(this, mCursor);
-        mAlarmsList.setAdapter(adapter);
-        mAlarmsList.setVerticalScrollBarEnabled(true);
-        mAlarmsList.setOnItemClickListener(this);
-        mAlarmsList.setOnCreateContextMenuListener(this);
+	private void selsct(int i) {
+		Button btns[] = { naozhong, shijian, miaobiao, daoshi };
+		for (int n = 0; n < 4; n++) {
+			final int a = n;
+			if (i == a) {
+				btns[a].setTextColor(Color.parseColor("#333333"));
+			} else {
+				btns[a].setTextColor(Color.parseColor("#878787"));
+			}
+		}
 
-        View addAlarm = findViewById(R.id.add_alarm);
-        if (addAlarm != null) {
-            addAlarm.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        addNewAlarm();
-                    }
-                });
-            // Make the entire view selected when focused.
-            addAlarm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        v.setSelected(hasFocus);
-                    }
-            });
-        }
+	}
 
-        View doneButton = findViewById(R.id.done);
-        if (doneButton != null) {
-            doneButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-        }
+	@Override
+	protected void onResume() {
+		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
-        View settingsButton = findViewById(R.id.settings);
-        if (settingsButton != null) {
-            settingsButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    startActivity(new Intent(AlarmClock.this, SettingsActivity.class));
-                    finish();
-                }
-            });
-        }
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
 
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.DISPLAY_HOME_AS_UP);
-        }
-    }
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
 
-    private void addNewAlarm() {
-        startActivity(new Intent(this, SetAlarm.class));
-    }
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				if (progress == 1) {
+					getWindow().addFlags(
+							WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+				}
+				if (progress == 2) {
+					getWindow().clearFlags(
+							WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+				}
+			}
+		});
+		super.onResume();
+	}
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ToastMaster.cancelToast();
-        if (mCursor != null) {
-            mCursor.close();
-        }
-    }
+	void InItView() {
+		pageViews = new ArrayList<View>();
+		View view00 = getLocalActivityManager().startActivity(
+				"activity00",
+				new Intent(this,
+						com.android.deskclock.AlarmClockold.class))
+				.getDecorView();
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View view,
-            ContextMenuInfo menuInfo) {
-        // Inflate the menu from xml.
-        getMenuInflater().inflate(R.menu.context_menu, menu);
+		View view01 = getLocalActivityManager().startActivity("activity01",
+				new Intent(this, com.android.deskclock.Timer.class))
+				.getDecorView();
+		View view02 = getLocalActivityManager().startActivity("activity02",
+				new Intent(this, com.android.deskclock.DuociTimer.class))
+				.getDecorView();
+		View view03 = getLocalActivityManager().startActivity("activity03",
+				new Intent(this, com.android.deskclock.MainActivity.class))
+				.getDecorView();
+		pageViews.add(view00);
+		pageViews.add(view01);
+		pageViews.add(view02);
+		pageViews.add(view03);
+	}
 
-        // Use the current item to create a custom view for the header.
-        final AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-        final Cursor c =
-                (Cursor) mAlarmsList.getAdapter().getItem(info.position);
-        final Alarm alarm = new Alarm(c);
+	class myPagerView extends PagerAdapter {
+		// 显示数目
+		@Override
+		public int getCount() {
+			return pageViews.size();
+		}
 
-        // Construct the Calendar to compute the time.
-        final Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, alarm.hour);
-        cal.set(Calendar.MINUTE, alarm.minutes);
-        final String time = Alarms.formatTime(this, cal);
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			return arg0 == arg1;
+		}
 
-        // Inflate the custom view and set each TextView's text.
-        final View v = mFactory.inflate(R.layout.context_menu_header, null);
-        TextView textView = (TextView) v.findViewById(R.id.header_time);
-        textView.setText(time);
-        textView = (TextView) v.findViewById(R.id.header_label);
-        textView.setText(alarm.label);
+		@Override
+		public int getItemPosition(Object object) {
+			return super.getItemPosition(object);
+		}
 
-        // Set the custom view on the menu.
-        menu.setHeaderView(v);
-        // Change the text based on the state of the alarm.
-        if (alarm.enabled) {
-            menu.findItem(R.id.enable_alarm).setTitle(R.string.disable_alarm);
-        }
-    }
+		@Override
+		public void destroyItem(View arg0, int arg1, Object arg2) {
+			((ViewPager) arg0).removeView(pageViews.get(arg1));
+		}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        
-        switch (item.getItemId()) {
-            case R.id.menu_item_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            case R.id.menu_item_desk_clock:
-                startActivity(new Intent(this, DeskClock.class));
-                finish();
-                return true;
-            case R.id.menu_item_add_alarm:
-                addNewAlarm();
-                return true;
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+		@Override
+		public Object instantiateItem(View arg0, int arg1) {
+			((ViewPager) arg0).addView(pageViews.get(arg1));
+			return pageViews.get(arg1);
+		}
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.alarm_list_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (SaveRun.getisdaojishi() || SaveRun.getisjishi()) {
+				new AlertDialog.Builder(this)
+						.setTitle("提示")
+						.setMessage("正在计时中，确定要退出吗？")
+						.setNegativeButton("取消",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										dialog.cancel();
+									}
+								})
+						.setPositiveButton("确定",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										finish();
+									}
+								})
+						.setNeutralButton("后台",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										Intent i = new Intent(
+												Intent.ACTION_MAIN);
+										i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+										i.addCategory(Intent.CATEGORY_HOME);
+										startActivity(i);
+									}
+								}).create().show();
+			} else {
+				finish();
+			}
+			return true;
 
-    @Override
-    public void onItemClick(AdapterView parent, View v, int pos, long id) {
-        final Cursor c = (Cursor) mAlarmsList.getAdapter()
-                .getItem(pos);
-        final Alarm alarm = new Alarm(c);
-        Intent intent = new Intent(this, SetAlarm.class);
-        intent.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
-        startActivity(intent);
-    }
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
+	}
 }

@@ -1,4 +1,4 @@
-package com.android.deskclock.jishiqi;
+package com.android.deskclock;
 
 public class SaveRun {
 static boolean isjishi=false;
